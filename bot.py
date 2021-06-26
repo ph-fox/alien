@@ -20,8 +20,6 @@ class Controller(object):
         time.sleep(1.5)
         print('-----------------------------------------------------------------')
         print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By AL104 & Droid')
-        print("Github:https://github.com/FonderElite")
-        print("Github:https://github.com/abalesluke")
         print('-----------------------------------------------------------------')
         time.sleep(1.5)
 
@@ -78,4 +76,7 @@ if __name__ == "__main__":
     banner.start()
     banner.join()
     while True:
-        main_class.listen()
+        try:
+            main_class.listen()
+        except:
+            pass
