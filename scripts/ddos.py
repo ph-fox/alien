@@ -1,4 +1,4 @@
-import threading,requests,argparse,time,socket
+import threading,requests,argparse,time,socket,urllib3
 parser = argparse.ArgumentParser()
 parser.add_argument('-d','--domain',metavar='',help='Domain to send request')
 args = parser.parse_args()
@@ -10,7 +10,9 @@ class Request(threading.Thread):
         try:
             while True:
                 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(("8.8.8.8", 53))
-                req_func = lambda req: requests.get(req)
+                req_func = lambda req: requests.get(req,verify=False)
+                urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
                 req = req_func(self.domain)
                 if req.status_code == 200 or req.status_code != 400:
                     print(f"[{req.status_code}]Request->{self.domain}")
