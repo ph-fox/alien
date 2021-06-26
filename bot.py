@@ -48,7 +48,7 @@ class Controller(object):
                     client_socket.close()
                     break
                 elif cmd == 'close':
-                    print(f'connection closed from {client_address}')
+                    print(f'connection closed from {client_address}\n')
                     client_socket.close()
                     break
 
