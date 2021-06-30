@@ -9,7 +9,7 @@ class Request(threading.Thread):
     def __init__(self,domain,threads):
         threading.Thread.__init__(self)
         self.domain = domain
-        self.threads = threads
+        self.threads = 100
     def request(self):
         try:
             while True:
