@@ -20,7 +20,7 @@ We Are No Longer Responsible For Any Misuse Of This Tool. <br>
 Use It Wisely, Your Life Depends On It.  😉🙂
 
 
-## Preview
+## Preview 👁
 <h3> Bot </h3>
 <img src="https://github.com/abalesluke/alien/blob/main/image.png?raw=true">
 <hr>
