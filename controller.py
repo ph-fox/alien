@@ -63,7 +63,7 @@ class Controller(object):
                     s.close()
                     exit(0)
         except Exception:
-            print('python3 <file-name.py> -h for help')
+            print(f'python3 {os.path.basename(__file__)} -h for help')
 
 
 if __name__ == "__main__":
